@@ -1,12 +1,15 @@
 
 package org.envaya.sms;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
@@ -47,7 +50,17 @@ public class JsonUtils {
     {
         String event = json.getString("event");
 
-        if (App.EVENT_SEND.equals(event))
+        if ("ussd_send".equals(event)) {
+        	String number = optString(json, "number", null);
+        	
+        	if (event != null) {
+        		Intent intent = new Intent("SEND_UC_USSD_WITH_RESULT");
+        		intent.putExtra("USSD_NUMBER", number);
+        		intent.putExtra("WAITING_PERIOD", 30 * 1000L);
+        		app.sendBroadcast(intent);
+        	}
+        	
+        } else if (App.EVENT_SEND.equals(event))
         {
             for (OutgoingMessage message : JsonUtils.getMessagesList(json, app, defaultTo))
             {

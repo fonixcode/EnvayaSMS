@@ -9,6 +9,10 @@ import java.util.List;
 
 public class IncomingSms extends IncomingMessage {
     
+	public IncomingSms(App app, String from, String message) {
+		super(app, from, System.currentTimeMillis());
+		this.message = message;
+	}
     // constructor for SMS retrieved from android.provider.Telephony.SMS_RECEIVED intent
     public IncomingSms(App app, List<SmsMessage> smsParts) throws InvalidParameterException {
         super(app, 
