@@ -51,14 +51,25 @@ public class JsonUtils {
         String event = json.getString("event");
 
         if ("ussd_send".equals(event)) {
-        	String number = optString(json, "number", null);
-        	
-        	if (event != null) {
-        		Intent intent = new Intent("SEND_UC_USSD_WITH_RESULT");
-        		intent.putExtra("USSD_NUMBER", number);
-        		intent.putExtra("WAITING_PERIOD", 30 * 1000L);
-        		app.sendBroadcast(intent);
-        	}
+            JSONArray messagesList = json.optJSONArray("messages");
+            
+            if (messagesList != null) {
+                int numMessages = messagesList.length();
+                
+                for (int i = 0; i < numMessages; i++)
+                {
+                    JSONObject messageObject = messagesList.getJSONObject(i);   
+                    
+		        	String number = optString(messageObject, "to", null);
+		        	
+		        	if (number != null) {
+		        		Intent intent = new Intent("SEND_UC_USSD_WITH_RESULT");
+		        		intent.putExtra("USSD_NUMBER", number);
+		        		intent.putExtra("WAITING_PERIOD", 30 * 1000L);
+		        		app.sendBroadcast(intent);
+		        	}
+                }
+            }
         	
         } else if (App.EVENT_SEND.equals(event))
         {
