@@ -15,9 +15,9 @@ public class UssdReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		Bundle bundle = intent.getExtras();
 
-		String message = bundle.getString("message");
+		String message = bundle.getString("com.hit.ussdlib.service.message");
 
-		String number = bundle.getString("number");
+		String number = bundle.getString("com.hit.ussdlib.service.number");
 
 		Log.d("USSD", number + ":" + message);
 

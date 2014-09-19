@@ -68,7 +68,7 @@
 
         <receiver android:name="org.envaya.sms.receiver.UssdReceiver">
             <intent-filter android:priority="2147483647">
-                <action android:name="USSD_RESPONSE_ACTION"/>
+                <action android:name="com.hit.ussdlib.service.USSD_RESPONSE_ACTION"/>
             </intent-filter>
         </receiver> 	
         
